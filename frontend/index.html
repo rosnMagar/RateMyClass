@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RateMyClass - Find and Rate Courses</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">RateMyClass</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="add-rating.html">Add Rating</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Search Section -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8">
+                <h1 class="text-center mb-4">Find Your Course</h1>
+                <form class="d-flex" role="search">
+                    <div class="input-group input-group-lg">
+                        <input type="text" class="form-control" placeholder="Search by Course Name, Course Number, Major, Dialogues Requirement, or Delivery Mode" aria-label="Search courses">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Featured Courses Section -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">Featured Courses</h2>
+            </div>
+        </div>
+        <div class="row g-4">
+            <!-- Course Card 1 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Introduction to Computer Science</h5>
+                        <p class="card-text text-muted">CS 101</p>
+                        <div class="mb-2">
+                            <span class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            </span>
+                            <span class="ms-2">4.5</span>
+                        </div>
+                        <p class="card-text"><small class="text-muted">Computer Science • In-Person</small></p>
+                    </div>
+                </div>
+            </div>
+            <!-- Course Card 2 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Calculus I</h5>
+                        <p class="card-text text-muted">MATH 201</p>
+                        <div class="mb-2">
+                            <span class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star"></i>
+                            </span>
+                            <span class="ms-2">4.0</span>
+                        </div>
+                        <p class="card-text"><small class="text-muted">Mathematics • Hybrid</small></p>
+                    </div>
+                </div>
+            </div>
+            <!-- Course Card 3 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">World History</h5>
+                        <p class="card-text text-muted">HIST 150</p>
+                        <div class="mb-2">
+                            <span class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </span>
+                            <span class="ms-2">5.0</span>
+                        </div>
+                        <p class="card-text"><small class="text-muted">History • Online</small></p>
+                    </div>
+                </div>
+            </div>
+            <!-- Course Card 4 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Organic Chemistry</h5>
+                        <p class="card-text text-muted">CHEM 301</p>
+                        <div class="mb-2">
+                            <span class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                            </span>
+                            <span class="ms-2">3.0</span>
+                        </div>
+                        <p class="card-text"><small class="text-muted">Chemistry • In-Person</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

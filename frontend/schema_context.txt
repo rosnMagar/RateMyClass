@@ -1,0 +1,116 @@
+-- Database Schema Definition for RateMyClass
+-- PostgreSQL Syntax
+-- This schema defines the database structure that the UI is designed to interact with.
+-- All form fields in add-rating.html map to fields in these tables.
+
+-- ============================================
+-- Table: School
+-- ============================================
+-- Stores information about educational institutions
+CREATE TABLE School (
+    school_id SERIAL PRIMARY KEY,
+    school_name VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================
+-- Table: Books
+-- ============================================
+-- Stores textbook information referenced in course ratings
+CREATE TABLE Books (
+    book_id SERIAL PRIMARY KEY,
+    title VARCHAR(500),
+    isbn VARCHAR(20) UNIQUE,
+    -- Either title or ISBN should be provided
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================
+-- Table: Professor
+-- ============================================
+-- Stores professor information
+CREATE TABLE Professor (
+    professor_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================
+-- Table: Course
+-- ============================================
+-- Stores course information
+-- Foreign Key: school_id references School(school_id)
+CREATE TABLE Course (
+    course_id SERIAL PRIMARY KEY,
+    course_name VARCHAR(255) NOT NULL,
+    course_number VARCHAR(50) NOT NULL,
+    major VARCHAR(100) NOT NULL,
+    school_id INTEGER NOT NULL,
+    dialogues_requirement VARCHAR(50), -- STEM, Arts & Humanities, Social Science, None
+    delivery_mode VARCHAR(20) NOT NULL, -- Online, In-Person, Hybrid
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (school_id) REFERENCES School(school_id) ON DELETE CASCADE,
+    -- Ensure unique course within a school
+    UNIQUE(course_number, school_id)
+);
+
+-- ============================================
+-- Table: Rating
+-- ============================================
+-- Stores individual course ratings submitted by users
+-- Foreign Keys: 
+--   - course_id references Course(course_id)
+--   - professor_id references Professor(professor_id)
+--   - book_id references Books(book_id) [optional]
+CREATE TABLE Rating (
+    rating_id SERIAL PRIMARY KEY,
+    course_id INTEGER NOT NULL,
+    professor_id INTEGER NOT NULL,
+    book_id INTEGER, -- Optional: may be NULL
+    rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+    review TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE CASCADE,
+    FOREIGN KEY (professor_id) REFERENCES Professor(professor_id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES Books(book_id) ON DELETE SET NULL
+);
+
+-- ============================================
+-- Indexes for Performance
+-- ============================================
+CREATE INDEX idx_course_school ON Course(school_id);
+CREATE INDEX idx_course_major ON Course(major);
+CREATE INDEX idx_course_number ON Course(course_number);
+CREATE INDEX idx_rating_course ON Rating(course_id);
+CREATE INDEX idx_rating_professor ON Rating(professor_id);
+CREATE INDEX idx_rating_book ON Rating(book_id);
+
+-- ============================================
+-- Field Mappings: UI Form to Database
+-- ============================================
+-- add-rating.html form fields map to database as follows:
+--
+-- Form Field                    -> Database Table/Field
+-- -----------------------------   ----------------------------
+-- Course Name                   -> Course.course_name
+-- Course Number                 -> Course.course_number
+-- Major                         -> Course.major
+-- School                        -> School.school_name (lookup/insert)
+-- Dialogues Requirement         -> Course.dialogues_requirement
+-- Delivery Mode                 -> Course.delivery_mode
+-- Rating                        -> Rating.rating
+-- Review                        -> Rating.review
+-- Textbook Title or ISBN        -> Books.title or Books.isbn (optional)
+--
+-- Note: The UI form does not currently include Professor fields,
+--       but the schema includes Professor table for future expansion.
+--       In a full implementation, the form would need to include
+--       professor selection or input fields.
+
