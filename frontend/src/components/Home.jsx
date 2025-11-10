@@ -20,13 +20,13 @@ function CourseCard({ course }) {
       >
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1">
-            <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-indigo-600 transition-colors">
+            <h3 className="text-xl font-bold text-white mb-1 group-hover:text-retro-pink transition-colors uppercase">
               {course.course_name}
             </h3>
-            <p className="text-sm font-medium text-indigo-600 mb-4">{course.course_number}</p>
+            <p className="text-sm font-bold text-retro-cyan mb-4 border-2 border-retro-cyan inline-block px-2 py-1">{course.course_number}</p>
           </div>
           <div className="ml-2">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-lg">
+            <div className="w-16 h-16 bg-gradient-to-br from-retro-pink/80 to-retro-purple/80 flex items-center justify-center text-white font-bold border-2 border-retro-cyan/50 shadow-md">
               {(course.average_rating || 0).toFixed(1)}
             </div>
           </div>
@@ -43,7 +43,7 @@ function CourseCard({ course }) {
             ))}
           </div>
           {ratingCount > 0 && (
-            <span className="ml-2 text-sm text-gray-500 font-medium">
+            <span className="ml-2 text-sm text-white font-bold">
               ({ratingCount} {ratingCount === 1 ? 'rating' : 'ratings'})
             </span>
           )}
@@ -51,20 +51,20 @@ function CourseCard({ course }) {
         
         <div className="space-y-2">
           <div className="flex flex-wrap gap-2">
-            <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
+            <span className="px-3 py-1 bg-retro-blue/70 text-white text-xs font-semibold border border-retro-cyan/50 uppercase">
               {course.major}
             </span>
-            <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-semibold">
+            <span className="px-3 py-1 bg-retro-purple/70 text-white text-xs font-semibold border border-retro-cyan/50 uppercase">
               {course.delivery_mode}
             </span>
             {course.dialogues_requirement && (
-              <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
+              <span className="px-3 py-1 bg-retro-pink/70 text-white text-xs font-semibold border border-retro-cyan/50 uppercase">
                 {course.dialogues_requirement}
               </span>
             )}
           </div>
           {course.school_name && (
-            <p className="text-sm text-gray-600 font-medium">{course.school_name}</p>
+            <p className="text-sm text-white font-bold uppercase">{course.school_name}</p>
           )}
         </div>
       </div>
@@ -106,11 +106,11 @@ function Home() {
       <div className="container mx-auto px-4 py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 bg-clip-text text-transparent">
-            Find Your Course
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 retro-title text-retro-cyan">
+            FIND YOUR COURSE
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Discover courses, read reviews, and make informed decisions about your education
+          <p className="text-xl text-retro-pink/90 mb-8 max-w-2xl mx-auto font-semibold uppercase tracking-wide">
+            Discover courses, read reviews, and make informed decisions
           </p>
           
           {/* Search Section */}
@@ -126,18 +126,18 @@ function Home() {
                 />
                 <button
                   type="submit"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-indigo-600 transition-colors"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-retro-cyan hover:text-retro-pink transition-colors"
                 >
                   <svg
                     className="w-6 h-6"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    strokeWidth="3"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     />
                   </svg>
@@ -155,39 +155,39 @@ function Home() {
 
         {/* Featured Courses Section */}
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">Featured Courses</h2>
-          <p className="text-gray-600">Explore courses rated by students</p>
+          <h2 className="text-4xl font-bold retro-text text-retro-pink/90 mb-2">FEATURED COURSES</h2>
+          <p className="text-retro-cyan/80 font-semibold uppercase tracking-wide">Explore courses rated by students</p>
         </div>
 
         {loading && (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="relative">
-              <div className="animate-spin rounded-full h-16 w-16 border-4 border-indigo-200 border-t-indigo-600 mb-4"></div>
+              <div className="animate-spin h-16 w-16 border-4 border-retro-dark border-t-retro-cyan mb-4" style={{ borderRadius: '50%' }}></div>
             </div>
-            <p className="text-gray-600 text-lg font-medium">Loading courses...</p>
+            <p className="text-retro-cyan text-lg font-bold uppercase tracking-wider">Loading courses...</p>
           </div>
         )}
 
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-6 rounded-xl mb-6 shadow-lg">
+          <div className="bg-red-900 border-4 border-retro-orange text-retro-yellow p-6 mb-6 shadow-lg">
             <div className="flex items-center">
               <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
               </svg>
-              <p className="font-semibold">{error}</p>
+              <p className="font-bold uppercase">{error}</p>
             </div>
           </div>
         )}
 
         {!loading && !error && courses.length === 0 && (
           <div className="text-center py-20">
-            <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-              <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div className="w-24 h-24 mx-auto mb-6 bg-retro-dark border-4 border-retro-cyan flex items-center justify-center" style={{ borderRadius: '50%' }}>
+              <svg className="w-12 h-12 text-retro-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <p className="text-gray-600 text-xl font-medium">No courses found.</p>
-            <p className="text-gray-500 mt-2">Try adjusting your search criteria</p>
+            <p className="text-retro-pink text-xl font-bold uppercase retro-text">No courses found.</p>
+            <p className="text-retro-cyan mt-2 font-bold uppercase tracking-wider">Try adjusting your search criteria</p>
           </div>
         )}
 

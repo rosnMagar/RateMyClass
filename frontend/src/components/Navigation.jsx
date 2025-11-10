@@ -17,25 +17,25 @@ function Navigation() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 text-white shadow-xl sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
+    <nav className="bg-retro-dark border-b-2 border-retro-cyan/40 text-white shadow-lg sticky top-0 z-50" style={{ background: 'linear-gradient(135deg, #0a0a0f 0%, #080810 100%)' }}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent hover:from-white hover:to-white transition-all duration-300">
+          <Link to="/" className="text-2xl font-bold retro-text text-retro-cyan hover:text-retro-pink transition-colors">
             RateMyClass
           </Link>
           
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-xl hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
+            className="md:hidden p-2 border-2 border-retro-cyan/40 hover:bg-retro-cyan/10 transition-all"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle navigation"
           >
             <svg
-              className="w-6 h-6 transition-transform duration-300"
+              className="w-6 h-6"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="2"
+              strokeWidth="3"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
@@ -48,23 +48,23 @@ function Navigation() {
           </button>
 
           {/* Desktop navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-2">
+          <div className="hidden md:flex md:items-center md:space-x-3">
             <Link
               to="/"
-              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              className={`px-4 py-2 text-sm font-semibold uppercase tracking-wide border-2 transition-all ${
                 isActive('/')
-                  ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm'
-                  : 'text-blue-100 hover:bg-white/10 hover:text-white'
+                  ? 'bg-retro-cyan/20 text-retro-cyan border-retro-cyan/60 shadow-md'
+                  : 'border-retro-cyan/40 text-retro-cyan/80 hover:bg-retro-cyan/10 hover:text-retro-cyan'
               }`}
             >
               Home
             </Link>
             <Link
               to="/add-rating"
-              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              className={`px-4 py-2 text-sm font-semibold uppercase tracking-wide border-2 transition-all ${
                 isActive('/add-rating')
-                  ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm'
-                  : 'text-blue-100 hover:bg-white/10 hover:text-white'
+                  ? 'bg-retro-pink/20 text-retro-pink border-retro-pink/60 shadow-md'
+                  : 'border-retro-pink/40 text-retro-pink/80 hover:bg-retro-pink/10 hover:text-retro-pink'
               }`}
             >
               Add Rating
@@ -72,10 +72,10 @@ function Navigation() {
             {isAdmin() && (
               <Link
                 to="/add-course"
-                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                className={`px-4 py-2 text-sm font-semibold uppercase tracking-wide border-2 transition-all ${
                   isActive('/add-course')
-                    ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm'
-                    : 'text-blue-100 hover:bg-white/10 hover:text-white'
+                    ? 'bg-retro-purple/20 text-retro-purple border-retro-purple/60 shadow-md'
+                    : 'border-retro-purple/40 text-retro-purple/80 hover:bg-retro-purple/10 hover:text-retro-purple'
                 }`}
               >
                 Add Course
@@ -84,7 +84,7 @@ function Navigation() {
             {isAdmin() ? (
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 rounded-xl text-sm font-semibold text-blue-100 hover:bg-white/10 hover:text-white transition-all duration-200"
+                className="px-4 py-2 rounded-lg text-sm font-semibold uppercase tracking-wide border-2 border-retro-orange/40 text-retro-orange/80 hover:bg-retro-orange/10 hover:text-retro-orange transition-all"
               >
                 Logout
               </button>
@@ -94,14 +94,14 @@ function Navigation() {
 
         {/* Mobile navigation */}
         {isOpen && (
-          <div className="md:hidden pb-4 animate-fadeIn">
+          <div className="md:hidden pb-4 animate-slide">
             <div className="flex flex-col space-y-2 mt-4">
               <Link
                 to="/"
-                className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                className={`px-4 py-3 text-sm font-semibold uppercase tracking-wide border-2 transition-all ${
                   isActive('/')
-                    ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm'
-                    : 'text-blue-100 hover:bg-white/10 hover:text-white'
+                    ? 'bg-retro-cyan/20 text-retro-cyan border-retro-cyan/60'
+                    : 'border-retro-cyan/40 text-retro-cyan/80 hover:bg-retro-cyan/10 hover:text-retro-cyan'
                 }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -109,10 +109,10 @@ function Navigation() {
               </Link>
               <Link
                 to="/add-rating"
-                className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                className={`px-4 py-3 text-sm font-semibold uppercase tracking-wide border-2 transition-all ${
                   isActive('/add-rating')
-                    ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm'
-                    : 'text-blue-100 hover:bg-white/10 hover:text-white'
+                    ? 'bg-retro-pink/20 text-retro-pink border-retro-pink/60'
+                    : 'border-retro-pink/40 text-retro-pink/80 hover:bg-retro-pink/10 hover:text-retro-pink'
                 }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -121,10 +121,10 @@ function Navigation() {
               {isAdmin() && (
                 <Link
                   to="/add-course"
-                  className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                  className={`px-4 py-3 text-sm font-semibold uppercase tracking-wide border-2 transition-all ${
                     isActive('/add-course')
-                      ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm'
-                      : 'text-blue-100 hover:bg-white/10 hover:text-white'
+                      ? 'bg-retro-purple/20 text-retro-purple border-retro-purple/60'
+                      : 'border-retro-purple/40 text-retro-purple/80 hover:bg-retro-purple/10 hover:text-retro-purple'
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
@@ -134,7 +134,7 @@ function Navigation() {
               {isAdmin() ? (
                 <button
                   onClick={handleLogout}
-                  className="px-4 py-3 rounded-xl text-sm font-semibold text-blue-100 hover:bg-white/10 hover:text-white transition-all duration-200 text-left"
+                  className="px-4 py-3 rounded-lg text-sm font-semibold uppercase tracking-wide border-2 border-retro-orange/40 text-retro-orange/80 hover:bg-retro-orange/10 hover:text-retro-orange transition-all text-left"
                 >
                   Logout
                 </button>

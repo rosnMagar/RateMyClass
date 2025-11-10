@@ -11,8 +11,8 @@ class CourseCreate(BaseModel):
     school_name: str
     dialogues_requirement: Optional[str] = None
     delivery_mode: str
-    rating: int = Field(..., ge=1, le=5)
-    review: str
+    rating: Optional[int] = Field(None, ge=1, le=5)
+    review: Optional[str] = None
     textbook: Optional[str] = None
 
 

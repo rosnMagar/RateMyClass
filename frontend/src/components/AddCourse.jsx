@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
-import StarRating from './StarRating';
 
 function AddCourse() {
   const navigate = useNavigate();
@@ -12,7 +11,6 @@ function AddCourse() {
   const [loadingSchools, setLoadingSchools] = useState(true);
   const [loadingCourses, setLoadingCourses] = useState(false);
   const [isNewCourse, setIsNewCourse] = useState(true);
-  const [textbookRequired, setTextbookRequired] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   
@@ -24,10 +22,7 @@ function AddCourse() {
     course_number: '',
     major: '',
     dialogues_requirement: '',
-    delivery_mode: '',
-    rating: '',
-    review: '',
-    textbook: ''
+    delivery_mode: ''
   });
 
   useEffect(() => {
@@ -136,21 +131,9 @@ function AddCourse() {
     }
   };
 
-  const handleRatingChange = (rating) => {
-    setFormData(prev => ({
-      ...prev,
-      rating
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.rating) {
-      alert('Please select a rating before submitting.');
-      return;
-    }
-
     if (!formData.school_id) {
       alert('Please select a school.');
       return;
@@ -166,11 +149,6 @@ function AddCourse() {
       return;
     }
 
-    if (textbookRequired && !formData.textbook) {
-      alert('Please enter the textbook title or ISBN since textbook is required.');
-      return;
-    }
-
     try {
       setSubmitting(true);
       setError(null);
@@ -181,15 +159,12 @@ function AddCourse() {
         major: formData.major,
         school_name: formData.school_name,
         dialogues_requirement: formData.dialogues_requirement || null,
-        delivery_mode: formData.delivery_mode,
-        rating: parseInt(formData.rating),
-        review: formData.review,
-        textbook: textbookRequired ? (formData.textbook || null) : null
+        delivery_mode: formData.delivery_mode
       };
 
       const token = getToken();
       await api.createCourse(courseData, token);
-      alert('Course and rating created successfully!');
+      alert('Course created successfully!');
       navigate('/');
     } catch (err) {
       console.error('Error submitting course:', err);
@@ -205,20 +180,20 @@ function AddCourse() {
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-10">
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 bg-clip-text text-transparent">
-              Add New Course
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 retro-title text-retro-purple/90">
+              ADD NEW COURSE
             </h1>
-            <p className="text-gray-600 text-lg">Create a new course and add its first rating</p>
+            <p className="text-retro-cyan/80 text-lg font-semibold uppercase tracking-wide">Create a new course</p>
           </div>
           
           <div className="card-modern p-8">
             {error && (
-              <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-6 py-4 rounded-xl mb-6 shadow-lg" role="alert">
+              <div className="bg-red-900 border-4 border-retro-orange text-retro-yellow px-6 py-4 mb-6 shadow-lg" role="alert">
                 <div className="flex items-center">
                   <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                   </svg>
-                  <p className="font-semibold">{error}</p>
+                  <p className="font-bold uppercase">{error}</p>
                 </div>
               </div>
             )}
@@ -226,8 +201,8 @@ function AddCourse() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* School Selection */}
               <div>
-                <label htmlFor="school" className="block text-sm font-semibold text-gray-700 mb-3">
-                  School (University) <span className="text-red-500">*</span>
+                <label htmlFor="school" className="block text-sm font-bold text-white mb-3 uppercase tracking-wider">
+                  School (University) <span className="text-retro-pink">*</span>
                 </label>
                 <select
                   id="school"
@@ -251,13 +226,13 @@ function AddCourse() {
               {formData.school_id && (
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
-                      Course <span className="text-red-500">*</span>
+                    <label className="block text-sm font-bold text-white mb-3 uppercase tracking-wider">
+                      Course <span className="text-retro-pink">*</span>
                     </label>
                     <button
                       type="button"
                       onClick={handleNewCourseToggle}
-                      className="text-sm text-indigo-600 hover:text-indigo-700 font-semibold underline"
+                      className="text-sm text-retro-cyan hover:text-retro-pink font-bold uppercase tracking-wider underline"
                     >
                       {isNewCourse ? 'Select existing course' : 'Add new course'}
                     </button>
@@ -281,10 +256,10 @@ function AddCourse() {
                       ))}
                     </select>
                   ) : (
-                    <div className="space-y-4 p-6 bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl border-2 border-dashed border-indigo-200">
+                    <div className="space-y-4 p-6 bg-retro-dark/50 border-2 border-dashed border-retro-cyan/50">
                       <div>
-                        <label htmlFor="courseName" className="block text-sm font-semibold text-gray-700 mb-3">
-                          Course Name <span className="text-red-500">*</span>
+                        <label htmlFor="courseName" className="block text-sm font-bold text-white mb-3 uppercase tracking-wider">
+                          Course Name <span className="text-retro-pink">*</span>
                         </label>
                         <input
                           type="text"
@@ -298,8 +273,8 @@ function AddCourse() {
                       </div>
 
                       <div>
-                        <label htmlFor="courseNumber" className="block text-sm font-semibold text-gray-700 mb-3">
-                          Course Number <span className="text-red-500">*</span>
+                        <label htmlFor="courseNumber" className="block text-sm font-bold text-white mb-3 uppercase tracking-wider">
+                          Course Number <span className="text-retro-pink">*</span>
                         </label>
                         <input
                           type="text"
@@ -313,8 +288,8 @@ function AddCourse() {
                       </div>
 
                       <div>
-                        <label htmlFor="major" className="block text-sm font-semibold text-gray-700 mb-3">
-                          Major <span className="text-red-500">*</span>
+                        <label htmlFor="major" className="block text-sm font-bold text-white mb-3 uppercase tracking-wider">
+                          Major <span className="text-retro-pink">*</span>
                         </label>
                         <input
                           type="text"
@@ -331,25 +306,25 @@ function AddCourse() {
 
                   {/* Display course info if existing course is selected */}
                   {!isNewCourse && formData.course_id && (
-                    <div className="mt-4 p-4 bg-gradient-to-br from-indigo-50 to-blue-50 border border-indigo-200 rounded-xl">
-                      <p className="text-sm text-gray-700 font-semibold mb-1">
-                        <span className="text-indigo-600">Course:</span> {formData.course_name}
-                      </p>
-                      <p className="text-sm text-gray-700 font-semibold mb-1">
-                        <span className="text-indigo-600">Number:</span> {formData.course_number}
-                      </p>
-                      <p className="text-sm text-gray-700 font-semibold">
-                        <span className="text-indigo-600">Major:</span> {formData.major}
-                      </p>
-                    </div>
+                      <div className="mt-4 p-4 bg-retro-dark/50 border-2 border-retro-cyan/50">
+                        <p className="text-sm text-retro-cyan/90 font-semibold mb-1 uppercase">
+                          <span className="text-retro-pink/90">Course:</span> {formData.course_name}
+                        </p>
+                        <p className="text-sm text-retro-cyan/90 font-semibold mb-1 uppercase">
+                          <span className="text-retro-pink/90">Number:</span> {formData.course_number}
+                        </p>
+                        <p className="text-sm text-retro-cyan/90 font-semibold uppercase">
+                          <span className="text-retro-pink/90">Major:</span> {formData.major}
+                        </p>
+                      </div>
                   )}
                 </div>
               )}
 
               {/* Dialogues Requirement */}
               <div>
-                <label htmlFor="dialoguesRequirement" className="block text-sm font-semibold text-gray-700 mb-3">
-                  Dialogues Requirement <span className="text-red-500">*</span>
+                <label htmlFor="dialoguesRequirement" className="block text-sm font-bold text-white mb-3 uppercase tracking-wider">
+                  Dialogues Requirement <span className="text-retro-pink">*</span>
                 </label>
                 <select
                   id="dialoguesRequirement"
@@ -369,115 +344,47 @@ function AddCourse() {
 
               {/* Delivery Mode */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                  Delivery Mode <span className="text-red-500">*</span>
+                <label className="block text-sm font-bold text-white mb-3 uppercase tracking-wider">
+                  Delivery Mode <span className="text-retro-pink">*</span>
                 </label>
                 <div className="grid grid-cols-3 gap-4">
-                  <label className="flex items-center p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-indigo-400 hover:bg-indigo-50 transition-all duration-200">
+                  <label className="flex items-center p-4 border-2 border-retro-blue/50 cursor-pointer hover:border-retro-pink/60 bg-retro-dark/50 transition-all duration-200">
                     <input
                       type="radio"
                       name="delivery_mode"
                       value="Online"
                       checked={formData.delivery_mode === 'Online'}
                       onChange={handleChange}
-                      className="mr-3 h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                      className="mr-3 h-4 w-4 text-retro-blue"
                       required
                     />
-                    <span className="text-gray-700 font-medium">Online</span>
+                    <span className="text-white font-semibold uppercase">Online</span>
                   </label>
-                  <label className="flex items-center p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-indigo-400 hover:bg-indigo-50 transition-all duration-200">
+                  <label className="flex items-center p-4 border-2 border-retro-purple/50 cursor-pointer hover:border-retro-pink/60 bg-retro-dark/50 transition-all duration-200">
                     <input
                       type="radio"
                       name="delivery_mode"
                       value="In-Person"
                       checked={formData.delivery_mode === 'In-Person'}
                       onChange={handleChange}
-                      className="mr-3 h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                      className="mr-3 h-4 w-4 text-retro-purple"
                       required
                     />
-                    <span className="text-gray-700 font-medium">In-Person</span>
+                    <span className="text-white font-semibold uppercase">In-Person</span>
                   </label>
-                  <label className="flex items-center p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-indigo-400 hover:bg-indigo-50 transition-all duration-200">
+                  <label className="flex items-center p-4 border-2 border-retro-pink/50 cursor-pointer hover:border-retro-cyan/60 bg-retro-dark/50 transition-all duration-200">
                     <input
                       type="radio"
                       name="delivery_mode"
                       value="Hybrid"
                       checked={formData.delivery_mode === 'Hybrid'}
                       onChange={handleChange}
-                      className="mr-3 h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                      className="mr-3 h-4 w-4 text-retro-pink"
                       required
                     />
-                    <span className="text-gray-700 font-medium">Hybrid</span>
+                    <span className="text-white font-semibold uppercase">Hybrid</span>
                   </label>
                 </div>
-              </div>
-
-              {/* Rating */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                  Rating <span className="text-red-500">*</span>
-                </label>
-                <div className="p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl border-2 border-yellow-200">
-                  <StarRating
-                    rating={formData.rating}
-                    onRatingChange={handleRatingChange}
-                  />
-                </div>
-              </div>
-
-              {/* Review */}
-              <div>
-                <label htmlFor="review" className="block text-sm font-semibold text-gray-700 mb-3">
-                  Review <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="review"
-                  name="review"
-                  rows="5"
-                  value={formData.review}
-                  onChange={handleChange}
-                  className="input-modern resize-none"
-                  required
-                  placeholder="Share your experience with this course..."
-                />
-              </div>
-
-              {/* Textbook Reference */}
-              <div>
-                <div className="flex items-center mb-3">
-                  <input
-                    type="checkbox"
-                    id="textbookRequired"
-                    checked={textbookRequired}
-                    onChange={(e) => {
-                      setTextbookRequired(e.target.checked);
-                      if (!e.target.checked) {
-                        setFormData(prev => ({ ...prev, textbook: '' }));
-                      }
-                    }}
-                    className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                  />
-                  <label htmlFor="textbookRequired" className="ml-3 block text-sm font-semibold text-gray-700">
-                    Textbook Required?
-                  </label>
-                </div>
-                {textbookRequired && (
-                  <div>
-                    <label htmlFor="textbook" className="block text-sm font-semibold text-gray-700 mb-3">
-                      Textbook Title or ISBN <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="textbook"
-                      name="textbook"
-                      value={formData.textbook}
-                      onChange={handleChange}
-                      placeholder="Enter textbook title or ISBN"
-                      className="input-modern"
-                      required={textbookRequired}
-                    />
-                  </div>
-                )}
               </div>
 
               {/* Submit Button */}
@@ -496,7 +403,7 @@ function AddCourse() {
                       Submitting...
                     </span>
                   ) : (
-                    'Create Course & Rating'
+                    'Create Course'
                   )}
                 </button>
               </div>

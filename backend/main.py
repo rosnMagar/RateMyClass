@@ -8,13 +8,14 @@ from schemas import CourseCreate, CourseWithRatings, CourseResponse, RatingRespo
 from auth import get_password_hash, verify_password, create_access_token, get_current_admin, ACCESS_TOKEN_EXPIRE_MINUTES
 from datetime import timedelta
 from pydantic import BaseModel
+import os
 
 app = FastAPI()
 
 # CORS middleware to allow frontend-backend communication
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, specify your frontend URL
+    allow_origins=[os.getenv("FRONTEND_URL")],  # In production, specify your frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -171,7 +172,7 @@ def create_rating(rating_data: RatingCreate, db: Session = Depends(get_db)):
 
 @app.post("/courses", response_model=CourseResponse)
 def create_course(course_data: CourseCreate, db: Session = Depends(get_db), current_admin: User = Depends(get_current_admin)):
-    """Create a new course with rating"""
+    """Create a new course (optionally with rating)"""
     try:
         # Get or create school
         school = db.query(School).filter(School.school_name == course_data.school_name).first()
@@ -201,42 +202,44 @@ def create_course(course_data: CourseCreate, db: Session = Depends(get_db), curr
             db.add(course)
             db.flush()
         
-        # Handle textbook (optional)
-        book_id = None
-        if course_data.textbook:
-            book = db.query(Book).filter(
-                (Book.isbn == course_data.textbook) | (Book.title == course_data.textbook)
+        # Only create rating if rating and review are provided
+        if course_data.rating and course_data.review:
+            # Handle textbook (optional)
+            book_id = None
+            if course_data.textbook:
+                book = db.query(Book).filter(
+                    (Book.isbn == course_data.textbook) | (Book.title == course_data.textbook)
+                ).first()
+                if not book:
+                    # Try to determine if it's ISBN or title
+                    if course_data.textbook.replace("-", "").replace(" ", "").isdigit():
+                        book = Book(isbn=course_data.textbook)
+                    else:
+                        book = Book(title=course_data.textbook)
+                    db.add(book)
+                    db.flush()
+                book_id = book.book_id
+            
+            # Create a default professor if none exists
+            professor = db.query(Professor).filter(
+                Professor.first_name == "Unknown",
+                Professor.last_name == "Professor"
             ).first()
-            if not book:
-                # Try to determine if it's ISBN or title
-                if course_data.textbook.replace("-", "").replace(" ", "").isdigit():
-                    book = Book(isbn=course_data.textbook)
-                else:
-                    book = Book(title=course_data.textbook)
-                db.add(book)
+            if not professor:
+                professor = Professor(first_name="Unknown", last_name="Professor")
+                db.add(professor)
                 db.flush()
-            book_id = book.book_id
+            
+            # Create rating
+            rating = Rating(
+                course_id=course.course_id,
+                professor_id=professor.professor_id,
+                book_id=book_id,
+                rating=course_data.rating,
+                review=course_data.review
+            )
+            db.add(rating)
         
-        # Create a default professor if none exists (since form doesn't have professor field)
-        # In a full implementation, you'd get this from the form
-        professor = db.query(Professor).filter(
-            Professor.first_name == "Unknown",
-            Professor.last_name == "Professor"
-        ).first()
-        if not professor:
-            professor = Professor(first_name="Unknown", last_name="Professor")
-            db.add(professor)
-            db.flush()
-        
-        # Create rating
-        rating = Rating(
-            course_id=course.course_id,
-            professor_id=professor.professor_id,
-            book_id=book_id,
-            rating=course_data.rating,
-            review=course_data.review
-        )
-        db.add(rating)
         db.commit()
         db.refresh(course)
         

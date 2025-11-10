@@ -12,7 +12,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="App min-h-screen">
+        <div className="App min-h-screen bg-animated" style={{ position: 'relative', zIndex: 2 }}>
           <Navigation />
           <Routes>
             <Route path="/" element={<Home />} />

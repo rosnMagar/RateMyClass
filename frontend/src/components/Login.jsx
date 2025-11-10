@@ -43,26 +43,26 @@ function Login() {
       <div className="max-w-md w-full">
         <div className="card-modern p-8">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-extrabold mb-2 bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 bg-clip-text text-transparent">
-              Admin Login
+            <h1 className="text-4xl font-bold mb-2 retro-title text-retro-purple/90">
+              ADMIN LOGIN
             </h1>
-            <p className="text-gray-600">Sign in to manage courses</p>
+            <p className="text-retro-cyan/80 font-semibold uppercase tracking-wide">Sign in to manage courses</p>
           </div>
 
           {error && (
-            <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-6 py-4 rounded-xl mb-6">
+            <div className="bg-red-900 border-4 border-retro-orange text-retro-yellow px-6 py-4 mb-6">
               <div className="flex items-center">
                 <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
-                <p className="font-semibold">{error}</p>
+                <p className="font-bold uppercase">{error}</p>
               </div>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="username" className="block text-sm font-semibold text-gray-700 mb-3">
+              <label htmlFor="username" className="block text-sm font-bold text-white mb-3 uppercase tracking-wider">
                 Username
               </label>
               <input
@@ -78,7 +78,7 @@ function Login() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-3">
+              <label htmlFor="password" className="block text-sm font-bold text-white mb-3 uppercase tracking-wider">
                 Password
               </label>
               <input
@@ -115,7 +115,7 @@ function Login() {
           <div className="mt-6 text-center">
             <button
               onClick={() => navigate('/')}
-              className="text-indigo-600 hover:text-indigo-700 font-medium"
+              className="text-retro-cyan hover:text-retro-pink font-bold uppercase tracking-wider"
             >
               ← Back to Home
             </button>
