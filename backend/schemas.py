@@ -52,6 +52,8 @@ class RatingResponse(BaseModel):
     rating: int
     review: str
     created_at: datetime
+    book_title: Optional[str] = None
+    book_isbn: Optional[str] = None
     
     class Config:
         from_attributes = True

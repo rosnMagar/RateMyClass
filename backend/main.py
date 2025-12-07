@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import func
 from typing import List, Optional
 from database import get_db, init_db, School, Course, Rating, Book, Professor, SessionLocal, User, UserRole
@@ -354,8 +354,8 @@ def get_course_detail(course_id: int, db: Session = Depends(get_db)):
     
     course, school_name, avg_rating, rating_count = result
     
-    # Get all ratings for this course
-    ratings = db.query(Rating).filter(Rating.course_id == course_id).order_by(Rating.created_at.desc()).all()
+    # Get all ratings for this course with book information
+    ratings = db.query(Rating).options(joinedload(Rating.book)).filter(Rating.course_id == course_id).order_by(Rating.created_at.desc()).all()
     
     return CourseDetail(
         course_id=course.course_id,
@@ -373,6 +373,8 @@ def get_course_detail(course_id: int, db: Session = Depends(get_db)):
             course_id=r.course_id,
             rating=r.rating,
             review=r.review,
-            created_at=r.created_at
+            created_at=r.created_at,
+            book_title=r.book.title if r.book else None,
+            book_isbn=r.book.isbn if r.book else None
         ) for r in ratings]
     )
